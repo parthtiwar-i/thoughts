@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .my-button {
+    @apply p-2 m-2 bg-orange-800 text-white rounded-xl hover:bg-orange-200 transition-colors;
+  }
+}
+
+.tiptap-vuetify-editor .ProseMirror {
+  @apply min-h-48 resize-y;
+}
+
+.tiptap:first-child {
+  @apply mt-0 p-4 min-h-72 focus:outline-none;
+}
+.tiptap ul,
+ol {
+  @apply px-0 py-4 mt-5 mr-4 mb-5 ml-1;
+}
+
+.tiptap li p {
+  @apply my-1;
+}
+
+/* Heading styles */
+.tiptap h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply leading-8 mt-10 text-pretty;
+}
+
+.tiptap h1 {
+  @apply text-3xl;
+}
+.tiptap h2 {
+  @apply text-2xl;
+}
+.tiptap h3 {
+  @apply text-xl;
+}
+
+/* Code and preformatted text styles */
+.tiptap code {
+  @apply bg-gray-700 rounded-md text-white text-sm px-1 py-2;
+}
+
+.tiptap pre {
+  @apply bg-black rounded-lg font-mono mx-6 my-0 px-3 py-4;
+}
+.tiptap pre > code {
+  @apply bg-none text-inherit text-sm p-0;
+}
+
+.tiptap blockquote {
+  @apply border-l-2 border-gray-500 mx-6 my-0 pl-4;
+}
+
+.tiptap hr {
+  @apply border-none border-t-2 border-gray-300 mx-8 my-0;
+}
