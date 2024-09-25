@@ -1,6 +1,5 @@
 # prod
 dist/
-wrangler.toml
 # dev
 .yarn/
 !.yarn/releases
@@ -12,6 +11,7 @@ wrangler.toml
 .idea/shelf
 
 # deps
+wrangler.toml
 node_modules/
 .wrangler
 

@@ -17,7 +17,7 @@ const BlogCard = ({
 }: BlogsCardProps) => {
   return (
     <Link to={`/blog/${id}`}>
-      <div className=" bg-orange-50 flex items-center justify-evenly px-5 py-7  border-b-2 cursor-pointer">
+      <div className=" bg-orange-50 flex items-center justify-between px-5 py-7  border-b-2 cursor-pointer">
         <div className="flex flex-col justify-start pr-2">
           <div className="flex items-center gap-2">
             <Avatar name={authorName} />
