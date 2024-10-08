@@ -4,12 +4,12 @@ import Avatar from "./Avatar";
 const NavBar = () => {
   return (
     <div className="flex p-5 justify-between bg-orange-200">
-      <div className="flex gap-2">
-        <Link
-          className="cursor-pointer italic font-semibold text-lg"
-          to={"/blogs"}
-        >
+      <div className="flex gap-4">
+        <Link className="cursor-pointer  font-semibold text-lg" to={"/"}>
           Thoughts
+        </Link>
+        <Link className="cursor-pointer font-semibold text-lg" to={"/blogs"}>
+          Blogs
         </Link>
       </div>
       <div className="flex gap-2">

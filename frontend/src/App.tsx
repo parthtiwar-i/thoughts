@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Blogs from "./pages/blog/Blogs";
 import NavBar from "./components/NavBar";
 import Publish from "./pages/Publish";
+import Home from "./pages/home";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/blog/:id" element={<Blog />} />
         <Route path="/blogs" element={<Blogs />} />
         <Route path="/publish" element={<Publish />} />
+        <Route path="/" element={<Home />} />
       </Routes>
       <ToastContainer />
     </BrowserRouter>
