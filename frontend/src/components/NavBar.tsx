@@ -3,7 +3,7 @@ import Avatar from "./Avatar";
 
 const NavBar = () => {
   return (
-    <div className="flex p-5 justify-between bg-orange-200">
+    <div className="flex p-5 sticky top-0 z-10 justify-between bg-orange-200 font-mono">
       <div className="flex gap-4">
         <Link className="cursor-pointer  font-semibold text-lg" to={"/"}>
           Thoughts
