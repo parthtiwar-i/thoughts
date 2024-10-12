@@ -1,6 +1,5 @@
 import StarterKit from "@tiptap/starter-kit";
 import { EditorProvider, useCurrentEditor } from "@tiptap/react";
-import { useState } from "react";
 
 const MenuBar = () => {
   const { editor } = useCurrentEditor();
