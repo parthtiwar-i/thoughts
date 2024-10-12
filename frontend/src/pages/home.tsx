@@ -17,8 +17,9 @@ const Home = () => {
         style={{
           backgroundSize,
           opacity,
+          backgroundImage: `url(src/assets/openedBook.jpg)`,
         }}
-        className="hero h-screen sticky top-0 flex justify-center items-center bg-[url('src/assets/openedBook.jpg')]  bg-cover bg-center bg-no-repeat"
+        className="hero h-screen sticky top-0 flex justify-center items-center  bg-cover bg-center bg-no-repeat"
       >
         <motion.div
           animate={{ x: [-500, 10, 0] }}
@@ -32,9 +33,12 @@ const Home = () => {
         </motion.div>
         <div className="animation absolute right-1/4 bottom-32">
           <motion.div
+            style={{
+              backgroundImage: `url(src/assets/pen.png)`,
+            }}
             animate={{ y: [0, 7, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatType: "loop" }}
-            className="bg-[url('src/assets/pen.png')] bg-cover  w-40 h-40"
+            className="bg-cover  w-40 h-40"
           />
         </div>
       </motion.div>
