@@ -6,6 +6,7 @@ import { SignUpInput } from "@parthtiwar_i/thoughts-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import showAlert from "../helper/Alert";
+import { useAuth } from "../context";
 const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
   const [userInputs, setUserInputs] = useState<SignUpInput>({
     name: "",
@@ -13,7 +14,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
     password: "",
   });
   const navigate = useNavigate();
-
+  const { login } = useAuth();
   async function authenticateUser() {
     try {
       const response = await axios.post(
@@ -24,13 +25,13 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
         throw Error(response.data.error);
       }
       const jwt = response.data;
-      localStorage.setItem("jwt", jwt.token);
-      navigate("/blogs");
+      login(jwt.token);
       const message: string =
         type == "signin"
           ? "Logged In successfully"
           : "Account created successfully";
       showAlert(message, "success");
+      navigate("/blogs");
     } catch (error) {
       let errorMessage = "An unknown error occurred";
       if (error instanceof Error) {
