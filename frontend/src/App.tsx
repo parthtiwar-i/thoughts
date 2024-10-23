@@ -9,7 +9,7 @@ import Blogs from "./pages/blog/Blogs";
 import NavBar from "./components/NavBar";
 import Publish from "./pages/Publish";
 import Home from "./pages/home";
-import { AuthProvider, useAuth } from "./context";
+import { AuthProvider } from "./context";
 import { ProtectedRoute } from "./routes/protectedRoute";
 
 function App() {
