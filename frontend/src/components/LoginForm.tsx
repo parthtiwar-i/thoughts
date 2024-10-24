@@ -44,7 +44,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
   }
 
   return (
-    <div className="md:flex h-screen w-screen  box-border">
+    <div className="md:flex h-screen w-full box-border">
       <div className="bg-orange-100 flex items-center justify-center h-screen w-screen md:w-1/2 box-border ">
         <div className="flex justify-center items-center flex-col w-full ">
           <h1 className="text-3xl text-orange-800 font-semibold font-serif ">
@@ -106,7 +106,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
           </div>
         </div>
       </div>
-      <div className="hidden bg-orange-200 md:flex items-center justify-center w-1/2">
+      <div className="hidden bg-orange-200 md:flex items-center justify-center box-border w-1/2">
         <Quote />
       </div>
     </div>

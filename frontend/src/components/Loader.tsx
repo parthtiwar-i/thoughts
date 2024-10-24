@@ -1,7 +1,12 @@
+import { motion } from "framer-motion";
 export const Loader = () => {
   return (
     <div>
-      <div className="flex gap-10 items-center px-20 w-full mb-2">
+      <motion.div
+        animate={{ opacity: [0.3, 1] }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+        className="flex gap-10 items-center px-20 w-full mb-2"
+      >
         <div role="status" className="animate-pulse w-screen  ">
           <div className="col-span-3 flex flex-col">
             <div className="text-5xl font-bold font-serif py-3 leading-snug ">
@@ -34,8 +39,12 @@ export const Loader = () => {
             <div className="w-48 h-2 bg-gray-200 rounded-full mt-2"></div>
           </div>
         </div>
-      </div>
-      <div className="flex gap-10 items-center px-20 w-full mb-2">
+      </motion.div>
+      <motion.div
+        animate={{ opacity: [0.3, 1] }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+        className="flex gap-10 items-center px-20 w-full mb-2"
+      >
         <div role="status" className="animate-pulse w-screen  ">
           <div className="col-span-3 flex flex-col">
             <div className="text-5xl font-bold font-serif py-3 leading-snug ">
@@ -68,8 +77,12 @@ export const Loader = () => {
             <div className="w-48 h-2 bg-gray-200 rounded-full mt-2"></div>
           </div>
         </div>
-      </div>
-      <div className="flex gap-10 items-center px-20 w-full mb-2">
+      </motion.div>
+      <motion.div
+        animate={{ opacity: [0.3, 1] }}
+        transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
+        className="flex gap-10 items-center px-20 w-full mb-2"
+      >
         <div role="status" className="animate-pulse w-screen  ">
           <div className="col-span-3 flex flex-col">
             <div className="text-5xl font-bold font-serif py-3 leading-snug ">
@@ -102,7 +115,7 @@ export const Loader = () => {
             <div className="w-48 h-2 bg-gray-200 rounded-full mt-2"></div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

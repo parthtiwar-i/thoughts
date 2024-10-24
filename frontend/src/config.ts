@@ -1,6 +1,8 @@
 export const BACKEND_URL: string = "https://my-app.tiwariparth26.workers.dev/";
 // export const BACKEND_URL: string = " http://127.0.0.1:8787/";
 
+export const homeHeroTitle = "Your Insight Matters";
+
 export const parallexImages = [
   {
     src: "https://images.unsplash.com/photo-1556566952-11eff3d06ed4?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",

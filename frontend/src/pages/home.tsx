@@ -1,8 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ParallexImage } from "../components/ParallexImage";
-import { parallexImages } from "../config";
-import { Footer } from "../components/footer";
-import { Section } from "../components/sectionAnimation";
+import { homeHeroTitle, parallexImages } from "../config";
 
 const Home = () => {
   const { scrollYProgress } = useScroll();
@@ -26,14 +24,29 @@ const Home = () => {
         >
           <div className="p-40 pl-96">
             <motion.h1
-              animate={{ opacity: [0, 1] }}
-              transition={{ duration: 2, type: "tween", ease: "circIn" }}
+              animate={{ opacity: [0, 1], y: [20, 0], scale: [0.9, 1] }}
+              transition={{
+                delay: 1,
+                duration: 0.5,
+              }}
               className="text-9xl text-orange-950 font-heroFont"
             >
               Thoughts
             </motion.h1>
             <p className="text-orange-800 text-xl font-mono ">
-              Your insight matters
+              {homeHeroTitle.split(" ").map((el, i) => (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{
+                    duration: 2,
+                    delay: i,
+                  }}
+                  key={i}
+                >
+                  {el}{" "}
+                </motion.span>
+              ))}
             </p>
           </div>
           <div className="animation absolute right-1/4 bottom-32">
@@ -61,9 +74,6 @@ const Home = () => {
           />
         ))}
       </div>
-      <Section>
-        <Footer />
-      </Section>
     </div>
   );
 };

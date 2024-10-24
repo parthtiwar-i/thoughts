@@ -3,7 +3,7 @@ import Avatar from "./Avatar";
 
 const BlogPage = ({ blog }: { blog: Blog }) => {
   return (
-    <div className="grid grid-cols-4">
+    <div className="grid grid-cols-4 min-h-[60vh]">
       <div className="col-span-3 flex flex-col">
         <div className="text-5xl font-bold font-serif py-3 leading-snug ">
           {blog.title}

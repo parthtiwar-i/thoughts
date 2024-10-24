@@ -14,7 +14,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [jwt, setJwt] = useState<string | null>();
+  const [jwt, setJwt] = useState<string | null>(() =>
+    localStorage.getItem("jwt")
+  );
 
   useEffect(() => {
     // TODO:validate token from backend
@@ -29,6 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     localStorage.removeItem("jwt");
+    setJwt(null);
   };
 
   return (
