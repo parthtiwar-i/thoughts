@@ -11,8 +11,20 @@ import Publish from "./pages/Publish";
 import Home from "./pages/home";
 import { AuthProvider } from "./context";
 import { ProtectedRoute } from "./routes/protectedRoute";
-
+import { useEffect, useState } from "react";
+import { Loading } from "./components/loading";
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <BrowserRouter>
       <AuthProvider>
