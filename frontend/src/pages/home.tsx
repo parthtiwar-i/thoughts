@@ -1,8 +1,11 @@
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ParallexImage } from "../components/ParallexImage";
+import { ParallexImage } from "../components/parallexImage";
 import { homeHeroTitle, parallexImages } from "../config";
+import { InfoSection } from "../components/infoSection";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
 
   const backgroundSize = useTransform(
@@ -36,8 +39,7 @@ const Home = () => {
             <p className="text-orange-800 text-xl font-mono ">
               {homeHeroTitle.split(" ").map((el, i) => (
                 <motion.span
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  animate={{ opacity: [0, 1] }}
                   transition={{
                     duration: 2,
                     delay: i,
@@ -73,6 +75,16 @@ const Home = () => {
             end={images.end}
           />
         ))}
+      </div>
+      {/* infosection */}
+      <InfoSection />
+      <div className="bg-orange-50 text-center flex justify-center items-center">
+        <button
+          onClick={() => navigate("/blogs")}
+          className="text-xl font-semibold font-mono hover:cursor-pointer bg-orange-400 hover:bg-orange-500 p-5 rounded-xl shadow-sm border border-red-400 w-[20%]"
+        >
+          Move to Blogs
+        </button>
       </div>
     </div>
   );

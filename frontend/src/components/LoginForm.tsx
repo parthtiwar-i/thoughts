@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import Quote from "./Quote";
+import Quote from "./quote";
 import Inputs from "../helper/Inputs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignUpInput } from "@parthtiwar_i/thoughts-common";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
@@ -14,7 +14,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
     password: "",
   });
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, jwt } = useAuth();
   async function authenticateUser() {
     try {
       const response = await axios.post(
@@ -42,6 +42,12 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
       showAlert(errorMessage, "error");
     }
   }
+
+  useEffect(() => {
+    if (jwt) {
+      navigate("/");
+    }
+  }, [jwt]);
 
   return (
     <div className="md:flex h-screen w-full box-border">

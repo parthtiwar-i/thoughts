@@ -6,7 +6,7 @@ import Login from "./pages/user/Login";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Blogs from "./pages/blog/Blogs";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/navBar";
 import Publish from "./pages/Publish";
 // import Home from "./pages/home";
 import { AuthProvider } from "./context";
