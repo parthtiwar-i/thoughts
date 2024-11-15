@@ -40,7 +40,7 @@ blogRouter.use("/*", async (c, next) => {
 //Routes
 
 //Get one blog
-blogRouter.get("/:id", async (c) => {
+blogRouter.get("/:id/blog", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
@@ -58,18 +58,19 @@ blogRouter.get("/:id", async (c) => {
         author: {
           select: {
             name: true,
+            id: true,
           },
         },
       },
     });
     return c.json({ message: "Success", blog });
   } catch (error) {
-    return c.json({ message: "Error can t find blog", error });
+    return c.json({ message: "Error cant find blog", error });
   }
 });
 
 //Get all (TODO : apply pagination)
-blogRouter.get("/", async (c) => {
+blogRouter.get("/all", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
@@ -106,13 +107,12 @@ blogRouter.post("/", async (c) => {
     return c.json({ message: "Invalid inputs" });
   }
   const user = c.get("jwtPayload");
-  console.log(user);
 
   const blog = await prisma.post.create({
     data: {
       title: body.title,
       content: body.content,
-      published: false,
+      published: true,
       authorId: user.id,
     },
   });
@@ -151,6 +151,7 @@ blogRouter.delete("/:id", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
+  //TODO: check blog author
 
   try {
     const deletedBlog = await prisma.post.delete({
@@ -161,5 +162,39 @@ blogRouter.delete("/:id", async (c) => {
     return c.json({ message: "Deleted successsfuly", deletedBlog });
   } catch (error) {
     c.json({ message: "Error cannot delete", error });
+  }
+});
+
+//Get users posted blogs
+
+blogRouter.get("/user-blogs", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const user = c.get("jwtPayload");
+
+  try {
+    console.log(user.id);
+    const userBlogs = await prisma.post.findMany({
+      where: {
+        authorId: user.id,
+      },
+      select: {
+        published: true,
+        id: true,
+        title: true,
+        content: true,
+        createdAt: true,
+        author: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    });
+    return c.json(userBlogs, user);
+  } catch (error) {
+    return c.json({ message: "Unable to fetch blogs! please retry", error });
   }
 });

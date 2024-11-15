@@ -3,6 +3,7 @@ import { ParallexImage } from "../components/parallexImage";
 import { homeHeroTitle, parallexImages } from "../config";
 import { InfoSection } from "../components/infoSection";
 import { useNavigate } from "react-router-dom";
+import ImageQuoteCard from "../components/imageQuoteSection";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -78,6 +79,11 @@ const Home = () => {
       </div>
       {/* infosection */}
       <InfoSection />
+      <ImageQuoteCard
+        imageSrc="./letterRoll.png"
+        leftQuote="This is left Quote"
+        rightQuote="This is right quote"
+      />
       <div className="bg-orange-50 text-center flex justify-center items-center">
         <button
           onClick={() => navigate("/blogs")}

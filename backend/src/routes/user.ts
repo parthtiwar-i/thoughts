@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { sign } from "hono/jwt";
+import { sign, verify } from "hono/jwt";
 import { signInInput, signUpInput } from "@parthtiwar_i/thoughts-common";
 
 export const userRouter = new Hono<{
@@ -10,6 +10,29 @@ export const userRouter = new Hono<{
     JWT_SECRETE: string;
   };
 }>();
+
+//middleware for routes with users name
+userRouter.use("/users", async (c, next) => {
+  const authHeader = c.req.header("Authorization");
+  if (!authHeader) {
+    c.status(401);
+    return c.json({ error: "Missing Authorization header" });
+  }
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = await verify(token, c.env.JWT_SECRETE);
+    if (payload) {
+      c.set("jwtPayload", payload);
+      await next();
+    } else {
+      new Error("Not authorised");
+      return;
+    }
+  } catch (error) {
+    c.status(401);
+    return c.json({ error: "Invalid or expired token" });
+  }
+});
 
 //Routes
 userRouter.post("/signup", async (c) => {
@@ -32,7 +55,7 @@ userRouter.post("/signup", async (c) => {
         password: body.password,
       },
     });
-    const payload = { userId: user.id };
+    const payload = { id: user.id };
     const token = await sign(payload, c.env.JWT_SECRETE);
     return c.json({
       user,
@@ -51,7 +74,7 @@ userRouter.post("/login", async (c) => {
 
   const body = await c.req.json();
   const { success, error } = signInInput.safeParse(body);
-  
+
   if (!success) {
     c.status(411);
     return c.json({ message: "Invalid inputs" });
@@ -70,4 +93,46 @@ userRouter.post("/login", async (c) => {
     return c.json({ token, message: "Signed up successsfuly " });
   }
   return c.json({ error: "unauthorised" });
+});
+
+//Authentiacte jwt token
+userRouter.get("/authenticate", async (c) => {
+  const authHeader = c.req.header("Authorization");
+  if (!authHeader) {
+    c.status(401);
+    return c.json({ error: "Missing Authorization header" });
+  }
+  const token = authHeader.split(" ")[1];
+  try {
+    const payload = await verify(token, c.env.JWT_SECRETE);
+    if (payload) {
+      return c.json({ verified: true });
+    }
+  } catch (error) {
+    return c.json({ verified: false });
+  }
+});
+
+userRouter.get("/users", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+  const user = c.get("jwtPayload");
+  try {
+    if (user) {
+      const userData = await prisma.user.findUnique({
+        where: {
+          id: user.id,
+        },
+        select: {
+          email: true,
+          name: true,
+          id: true,
+        },
+      });
+      return c.json({ userData });
+    }
+  } catch (error) {
+    return c.json({ message: "No user found" });
+  }
 });

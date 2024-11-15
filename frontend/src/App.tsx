@@ -14,6 +14,7 @@ import { ProtectedRoute } from "./routes/protectedRoute";
 import { lazy, Suspense } from "react";
 import { Loading } from "./components/loading";
 import { Footer } from "./components/footer";
+import UserProfile from "./pages/profile";
 const Home = lazy(() => import("./pages/home"));
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
               <Route path="/blog/:id" element={<Blog />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/publish" element={<Publish />} />
+              <Route path="/profile" element={<UserProfile />} />
             </Route>
           </Routes>
           <Footer />

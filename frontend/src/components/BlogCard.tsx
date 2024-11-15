@@ -7,6 +7,8 @@ interface BlogsCardProps {
   title: string;
   publishDate: string;
   id: string;
+  published?: boolean;
+  myBlogs?: boolean;
 }
 const BlogCard = ({
   authorName,
@@ -14,10 +16,11 @@ const BlogCard = ({
   content,
   publishDate,
   id,
+  published,
 }: BlogsCardProps) => {
   return (
     <Link to={`/blog/${id}`}>
-      <div className=" bg-orange-50 flex items-center justify-between px-5 py-7  border-b-2 cursor-pointer">
+      <div className=" bg-orange-50 flex items-center justify-between px-5 py-7 mb-2 border-b-2 cursor-pointer hover:shadow-2xl rounded-md transition-all duration-300 ease-in-out">
         <div className="flex flex-col justify-start pr-2">
           <div className="flex items-center gap-2">
             <Avatar name={authorName} />
@@ -34,12 +37,12 @@ const BlogCard = ({
             dangerouslySetInnerHTML={{
               __html: content.length >= 100 && content.slice(0, 100) + "...",
             }}
-          ></div>
+          />
           <div className="text-gray-400 text-sm pt-3">{`${Math.floor(
             content.length / 100
           )} min read`}</div>
         </div>
-        <div className="banner">Banner IMage</div>
+        <div className="banner">Banner Image</div>
       </div>
     </Link>
   );

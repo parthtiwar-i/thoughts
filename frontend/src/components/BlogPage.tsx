@@ -1,7 +1,29 @@
+import axios from "axios";
+import { useAuth } from "../context";
 import { Blog } from "../hooks/useBlogs";
 import Avatar from "./Avatar";
+import { BACKEND_URL } from "../config";
+import showAlert from "../helper/Alert";
+import { useNavigate } from "react-router-dom";
 
 const BlogPage = ({ blog }: { blog: Blog }) => {
+  const { user, jwt } = useAuth();
+  const navigate = useNavigate();
+  const deleteBlog = async () => {
+    try {
+      const response = await axios.delete(`${BACKEND_URL}/blog/${blog.id}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if (response) {
+        showAlert("Blog deleted successfully", "success");
+        navigate("/profile");
+      }
+    } catch (error) {
+      showAlert("Unable to deleted blog", "error");
+    }
+  };
   return (
     <div className="grid grid-cols-4 min-h-[60vh]">
       <div className="col-span-3 flex flex-col">
@@ -25,6 +47,23 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
             <div>Random catch phrase about the author to grab attention</div>
           </div>
         </div>
+        {user?.id === blog.author.id && (
+          <div className="actions flex flex-col items-center">
+            <button
+              type="button"
+              className=" w-fit rounded-md text-black bg-orange-200 hover:bg-orange-300 focus:outline-none  focus:ring-gray-300 font-medium text-sm px-5 py-2 me-2 my-2"
+            >
+              Update Blog
+            </button>
+            <button
+              onClick={deleteBlog}
+              type="button"
+              className=" w-fit rounded-md text-black bg-orange-200 hover:bg-orange-300 focus:outline-none  focus:ring-gray-300 font-medium text-sm px-5 py-2 me-2 my-2"
+            >
+              Delete
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

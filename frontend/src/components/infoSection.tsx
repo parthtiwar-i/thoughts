@@ -19,7 +19,7 @@ export const InfoSection = () => {
           animate={{
             backgroundColor: ["#fca5a5", "#bef264", "#7dd3fc", "#c4b5fd"],
           }}
-          transition={{ duration: 30, repeat: Infinity, ease: "easeIn" }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeIn" }}
         >
           <motion.img
             ref={bookRef}

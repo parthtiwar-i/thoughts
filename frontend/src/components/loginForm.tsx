@@ -18,7 +18,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
   async function authenticateUser() {
     try {
       const response = await axios.post(
-        `${BACKEND_URL}api/v1/user/${type === "signin" ? "login" : "signup"}`,
+        `${BACKEND_URL}/user/${type === "signin" ? "login" : "signup"}`,
         userInputs
       );
       if (response.data.error) {

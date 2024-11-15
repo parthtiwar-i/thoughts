@@ -21,9 +21,11 @@ const NavBar = () => {
             Publish
           </button>
         </Link>
-        <div className="cursor-pointer">
-          <Avatar name="Parth Tiwari" />
-        </div>
+        <Link to={"/profile"}>
+          <div className="cursor-pointer">
+            <Avatar name="Parth Tiwari" />
+          </div>
+        </Link>
       </div>
     </div>
   );
