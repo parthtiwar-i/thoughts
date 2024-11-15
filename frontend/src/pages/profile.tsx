@@ -4,25 +4,25 @@ import { Loader } from "../components/Loader";
 import { useAuth } from "../context";
 import { getUserBlog } from "../hooks/useBlogs";
 
-interface User {
-  name: string;
-  avatar: string;
-  bio: string;
-  location: string;
-  email: string;
-}
+// interface User {
+//   name: string;
+//   avatar: string;
+//   bio: string;
+//   location: string;
+//   email: string;
+// }
 
-interface Blog {
-  id: number;
-  title: string;
-  excerpt: string;
-  date: string;
-}
+// interface Blog {
+//   id: number;
+//   title: string;
+//   excerpt: string;
+//   date: string;
+// }
 
-interface UserProfileProps {
-  user: User;
-  blogs: Blog[];
-}
+// interface UserProfileProps {
+//   user: User;
+//   blogs: Blog[];
+// }
 
 export default function UserProfile() {
   const { loading, userBlogs } = getUserBlog();

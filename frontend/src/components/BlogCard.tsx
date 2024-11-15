@@ -16,8 +16,8 @@ const BlogCard = ({
   content,
   publishDate,
   id,
-  published,
-}: BlogsCardProps) => {
+}: // published,
+BlogsCardProps) => {
   return (
     <Link to={`/blog/${id}`}>
       <div className=" bg-orange-50 flex items-center justify-between px-5 py-7 mb-2 border-b-2 cursor-pointer hover:shadow-2xl rounded-md transition-all duration-300 ease-in-out">
