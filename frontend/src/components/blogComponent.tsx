@@ -1,17 +1,17 @@
 import { Blog } from "../hooks/useBlogs";
 import Avatar from "./Avatar";
 
-interface BlogPageProps {
-  title: string;
-  content: string;
-  author: {
-    name: string;
-    avatar?: string;
-    about: string;
-  };
-  onDelete?: () => void;
-  onUpdate?: () => void;
-}
+// interface BlogPageProps {
+//   title: string;
+//   content: string;
+//   author: {
+//     name: string;
+//     avatar?: string;
+//     about: string;
+//   };
+//   onDelete?: () => void;
+//   onUpdate?: () => void;
+// }
 
 export default function BlogComponent({ blog }: { blog: Blog }) {
   return (

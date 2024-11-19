@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useBlog } from "../../hooks/useBlogs";
 import { BlogPage } from "../../components/BlogPage";
 import { Loader } from "../../components/Loader";
-import BlogComponent from "../../components/blogComponent";
+// import BlogComponent from "../../components/blogComponent";
 
 const Blog = () => {
   const { id } = useParams();
