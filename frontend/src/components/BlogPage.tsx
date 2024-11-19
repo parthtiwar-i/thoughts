@@ -6,7 +6,7 @@ import { BACKEND_URL } from "../config";
 import showAlert from "../helper/Alert";
 import { useNavigate } from "react-router-dom";
 
-const BlogPage = ({ blog }: { blog: Blog }) => {
+export const BlogPage = ({ blog }: { blog: Blog }) => {
   const { user, jwt } = useAuth();
   const navigate = useNavigate();
   const deleteBlog = async () => {
@@ -32,7 +32,7 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
         </div>
         <div className="text-lg text-gray-400 py-5">Posted on august 2024</div>
         <div
-          className="text-lg tracking-wide leading-9 text-gray-800"
+          className="text-lg tracking-wide leading-9 text-gray-800 tiptap"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         ></div>
       </div>
@@ -68,5 +68,3 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
     </div>
   );
 };
-
-export default BlogPage;

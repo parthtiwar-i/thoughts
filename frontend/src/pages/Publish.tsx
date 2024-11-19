@@ -28,7 +28,7 @@ const Publish = () => {
         className="text-white bg-orange-950 hover:bg-orange-800 focus:outline-none font-medium rounded-lg text-lg px-5 py-1.5 mt-4 text-center"
         onClick={async () => {
           const response = await axios.post(
-            `${BACKEND_URL}api/v1/blog`,
+            `${BACKEND_URL}/blog`,
             {
               title,
               content,

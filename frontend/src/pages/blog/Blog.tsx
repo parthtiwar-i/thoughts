@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useBlog } from "../../hooks/useBlogs";
-import BlogPage from "../../components/BlogPage";
+import { BlogPage } from "../../components/BlogPage";
 import { Loader } from "../../components/Loader";
+import BlogComponent from "../../components/blogComponent";
 
 const Blog = () => {
   const { id } = useParams();
@@ -15,6 +16,7 @@ const Blog = () => {
       ) : (
         <div className="px-28 py-12 bg-orange-50 ">
           <BlogPage blog={blog!} />
+          {/* <BlogComponent blog={blog!} /> */}
         </div>
       )}
     </div>

@@ -1,7 +1,13 @@
-const Avatar = ({ name, className }: { name: string; className?: string }) => {
-  function getFirstTwoChars(str: string) {
+const Avatar = ({
+  name,
+  className,
+}: {
+  name: string | undefined;
+  className?: string;
+}) => {
+  function getFirstTwoChars(str: string | undefined) {
     return str
-      .split(" ")
+      ?.split(" ")
       .map((word) => word.slice(0, 1))
       .join("");
   }

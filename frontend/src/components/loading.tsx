@@ -6,7 +6,7 @@ export const Loading = () => {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="h-screen w-full flex flex-col items-center justify-center bg-orange-300"
+      className="h-screen w-full flex flex-col items-center justify-center bg-transparent"
     >
       <motion.div
         animate={{ rotate: 360 }}

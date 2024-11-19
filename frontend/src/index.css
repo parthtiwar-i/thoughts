@@ -46,18 +46,21 @@ h6 {
 
 /* Code and preformatted text styles */
 .tiptap code {
-  @apply bg-gray-700 rounded-md text-white text-sm px-1 py-2;
+  @apply bg-gray-700 rounded-md text-white text-sm px-1 py-2 w-[70%] overflow-x-auto;
+}
+.tiptap p {
+  @apply text-wrap max-w-[100%] break-words;
 }
 
 .tiptap pre {
-  @apply bg-black rounded-lg font-mono mx-6 my-0 px-3 py-4;
+  @apply bg-black rounded-lg text-white font-mono mx-6 my-0 px-3 py-4 w-[90%] overflow-x-auto;
 }
 .tiptap pre > code {
-  @apply bg-none text-inherit text-sm p-0;
+  @apply bg-none text-inherit text-sm p-0 w-[90%] overflow-x-auto;
 }
 
 .tiptap blockquote {
-  @apply border-l-2 border-gray-500 mx-6 my-0 pl-4;
+  @apply border-l-2 border-gray-500 mx-6 my-0 pl-4 w-[90%] overflow-x-auto;
 }
 
 .tiptap hr {

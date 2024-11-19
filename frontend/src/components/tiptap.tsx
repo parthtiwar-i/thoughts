@@ -179,7 +179,7 @@ const extensions = [
   }),
 ];
 
-const content = "Please write about your blog from here ....";
+const content = "Please write about your blog from here ...";
 
 const Tiptap = ({
   setContent,

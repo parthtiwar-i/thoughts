@@ -87,7 +87,7 @@ const Home = () => {
       <div className="bg-orange-50 text-center flex justify-center items-center">
         <button
           onClick={() => navigate("/blogs")}
-          className="text-xl font-semibold font-mono hover:cursor-pointer bg-orange-400 hover:bg-orange-500 p-5 rounded-xl shadow-sm border border-red-400 w-[20%]"
+          className="text-lg font-semibold font-mono hover:cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-xl shadow-sm border border-red-400"
         >
           Move to Blogs
         </button>

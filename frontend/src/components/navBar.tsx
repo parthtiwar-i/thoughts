@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Avatar from "./Avatar";
+import { useAuth } from "../context";
 
 const NavBar = () => {
+  const { user } = useAuth();
   return (
     <div className="flex p-5 sticky top-0 z-10 justify-between bg-orange-200 font-mono">
       <div className="flex gap-4">
@@ -21,11 +23,13 @@ const NavBar = () => {
             Publish
           </button>
         </Link>
-        <Link to={"/profile"}>
-          <div className="cursor-pointer">
-            <Avatar name="Parth Tiwari" />
-          </div>
-        </Link>
+        {user && (
+          <Link to={"/profile"}>
+            <div className="cursor-pointer">
+              <Avatar name={user?.name} />
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );

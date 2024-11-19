@@ -35,7 +35,7 @@ export default function UserProfile() {
           <div className="flex flex-col items-center mb-6">
             <Avatar
               className="w-32 h-32 rounded-full mb-4 text-center bg-orange-50 flex justify-center items-center"
-              name="Parth Tiwari"
+              name={user?.name}
             />
             {/* <img
               src={user.avatar}
