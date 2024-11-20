@@ -1,5 +1,5 @@
 import { Blog } from "../hooks/useBlogs";
-import Avatar from "./Avatar";
+import Avatar from "./userAvatar";
 
 // interface BlogPageProps {
 //   title: string;

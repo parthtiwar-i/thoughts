@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Avatar from "./Avatar";
+import Avatar from "./userAvatar";
 
 interface BlogsCardProps {
   authorName: string;

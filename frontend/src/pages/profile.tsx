@@ -1,6 +1,6 @@
-import Avatar from "../components/Avatar";
+import Avatar from "../components/userAvatar";
 import BlogCard from "../components/BlogCard";
-import { Loader } from "../components/Loader";
+import { Loader } from "../components/skeletonLoader";
 import { useAuth } from "../context";
 import { getUserBlog } from "../hooks/useBlogs";
 

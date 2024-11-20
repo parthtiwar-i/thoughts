@@ -179,12 +179,12 @@ const extensions = [
   }),
 ];
 
-const content = "Please write about your blog from here ...";
-
 const Tiptap = ({
   setContent,
+  content,
 }: {
   setContent: React.Dispatch<React.SetStateAction<string>>;
+  content: string;
 }) => {
   // const editor = useEditor({
   //   extensions,

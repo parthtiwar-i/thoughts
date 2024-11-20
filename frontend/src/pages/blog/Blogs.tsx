@@ -1,5 +1,5 @@
 import BlogCard from "../../components/BlogCard";
-import { Loader } from "../../components/Loader";
+import { Loader } from "../../components/skeletonLoader";
 import { useBlogs } from "../../hooks/useBlogs";
 
 const Blogs = () => {

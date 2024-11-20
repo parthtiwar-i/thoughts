@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useAuth } from "../context";
 import { Blog } from "../hooks/useBlogs";
-import Avatar from "./Avatar";
+import Avatar from "./userAvatar";
 import { BACKEND_URL } from "../config";
 import showAlert from "../helper/Alert";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +50,7 @@ export const BlogPage = ({ blog }: { blog: Blog }) => {
         {user?.id === blog.author.id && (
           <div className="actions flex flex-col items-center">
             <button
+              onClick={() => navigate(`/update/${blog.id}`)}
               type="button"
               className=" w-fit rounded-md text-black bg-orange-200 hover:bg-orange-300 focus:outline-none  focus:ring-gray-300 font-medium text-sm px-5 py-2 me-2 my-2"
             >

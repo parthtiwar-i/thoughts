@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Avatar from "./Avatar";
+import Avatar from "./userAvatar";
 import { useAuth } from "../context";
 
 const NavBar = () => {
@@ -23,12 +23,14 @@ const NavBar = () => {
             Publish
           </button>
         </Link>
-        {user && (
+        {user ? (
           <Link to={"/profile"}>
             <div className="cursor-pointer">
               <Avatar name={user?.name} />
             </div>
           </Link>
+        ) : (
+          <Link to={"/login"}>Login</Link>
         )}
       </div>
     </div>

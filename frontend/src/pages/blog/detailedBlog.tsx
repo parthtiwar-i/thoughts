@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useBlog } from "../../hooks/useBlogs";
-import { BlogPage } from "../../components/BlogPage";
-import { Loader } from "../../components/Loader";
+import { BlogPage } from "../../components/detailedBlogPage";
+import { Loader } from "../../components/skeletonLoader";
 // import BlogComponent from "../../components/blogComponent";
 
 const Blog = () => {

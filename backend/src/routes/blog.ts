@@ -17,7 +17,8 @@ export const blogRouter = new Hono<{
 //Middlewares
 blogRouter.use("/*", async (c, next) => {
   if (c.req.path.split("/")[4] === "all") {
-    return next();
+    await next();
+    return;
   }
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {
@@ -177,7 +178,6 @@ blogRouter.get("/user-blogs", async (c) => {
   const user = c.get("jwtPayload");
 
   try {
-    console.log(user.id);
     const userBlogs = await prisma.post.findMany({
       where: {
         authorId: user.id,
