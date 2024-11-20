@@ -23,7 +23,7 @@ export const BlogEditor = ({
   const onPublish = async () => {
     try {
       //overlay loder
-      const url = `${BACKEND_URL}/blog/${blogId && blogId}`;
+      const url = `${BACKEND_URL}/blog${blogId ? `/${blogId}` : ""}`;
       const method = blogId ? "PATCH" : "POST";
       const response = await axios({
         method,
