@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -22,15 +22,10 @@ export const ParallexImage = React.memo(
       offset: [`${start}px end`, `end ${end}px`],
     });
 
-    // Memoize transform calculations
-    const { opacity, y, scale } = useMemo(
-      () => ({
-        opacity: useTransform(scrollYProgress, [0, 1], [1, 0.75]),
-        y: useTransform(scrollYProgress, [0, 1], [start, end]),
-        scale: useTransform(scrollYProgress, [0, 1], [1, 0.75]),
-      }),
-      [scrollYProgress, start, end]
-    );
+    // Move useTransform calls to the top level
+    const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.75]);
+    const y = useTransform(scrollYProgress, [0, 1], [start, end]);
+    const scale = useTransform(scrollYProgress, [0, 1], [1, 0.75]);
 
     const transform = useMotionTemplate`translateY(${y}px) scale(${scale})`;
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ParallexImage } from "../components/parallexImage";
 import { homeHeroTitle, parallexImages } from "../config";
@@ -10,28 +10,56 @@ const Home = () => {
   const navigate = useNavigate();
   const { scrollYProgress } = useScroll();
 
-  // Memoize transform values
-  const backgroundSize = useMemo(
-    () => useTransform(scrollYProgress, [0, 1], ["100%", "200%"]),
-    [scrollYProgress]
+  // Transform values without useMemo
+  const backgroundSize = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["100%", "200%"]
   );
-
-  const opacity = useMemo(
-    () => useTransform(scrollYProgress, [0, 1], [1, 0.75]),
-    [scrollYProgress]
-  );
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.75]);
 
   // Memoize navigation handler
   const handleNavigate = useCallback(() => {
     navigate("/blogs");
   }, [navigate]);
 
-  // Memoize hero text animation variants
-  const textAnimation = useMemo(
-    () => ({
-      initial: { opacity: 0, y: 20, scale: 0.9 },
-      animate: { opacity: 1, y: 0, scale: 1 },
-    }),
+  // Memoized hero text animation variants
+  const textAnimation = {
+    initial: { opacity: 0, y: 20, scale: 0.9 },
+    animate: { opacity: 1, y: 0, scale: 1 },
+  };
+
+  // Memoized animated title
+  const animatedTitle = useMemo(
+    () =>
+      homeHeroTitle.split(" ").map((el, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 2,
+            delay: i * 0.2, // Adjust delay to be more natural
+          }}
+        >
+          {el}{" "}
+        </motion.span>
+      )),
+    []
+  );
+
+  // Memoized parallex images
+  const parallexImagesComponents = useMemo(
+    () =>
+      parallexImages.map((image, i) => (
+        <ParallexImage
+          key={i}
+          src={image.src}
+          className={image.className}
+          start={image.start}
+          end={image.end}
+        />
+      )),
     []
   );
 
@@ -59,25 +87,7 @@ const Home = () => {
             >
               Thoughts
             </motion.h1>
-            <p className="text-orange-800 text-xl font-mono">
-              {useMemo(
-                () =>
-                  homeHeroTitle.split(" ").map((el, i) => (
-                    <motion.span
-                      key={i}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{
-                        duration: 2,
-                        delay: i,
-                      }}
-                    >
-                      {el}{" "}
-                    </motion.span>
-                  )),
-                []
-              )}
-            </p>
+            <p className="text-orange-800 text-xl font-mono">{animatedTitle}</p>
           </div>
           <div className="animation absolute right-1/4 bottom-32">
             <motion.div
@@ -90,24 +100,12 @@ const Home = () => {
                 repeat: Infinity,
                 repeatType: "loop",
               }}
-              className="bg-cover w-40 h-40"
+              className="absolute w-36 h-36 bg-cover right-1/4 bottom-8"
             />
           </div>
         </motion.div>
 
-        {useMemo(
-          () =>
-            parallexImages.map((image, i) => (
-              <ParallexImage
-                key={i}
-                src={image.src}
-                className={image.className}
-                start={image.start}
-                end={image.end}
-              />
-            )),
-          []
-        )}
+        {parallexImagesComponents}
       </div>
 
       <InfoSection />
@@ -129,4 +127,4 @@ const Home = () => {
   );
 };
 
-export default React.memo(Home);
+export default Home;
