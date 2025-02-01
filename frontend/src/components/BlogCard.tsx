@@ -9,6 +9,7 @@ interface BlogsCardProps {
   id: string;
   published?: boolean;
   myBlogs?: boolean;
+  titleImage?: string;
 }
 const BlogCard = ({
   authorName,
@@ -16,8 +17,20 @@ const BlogCard = ({
   content,
   publishDate,
   id,
+  titleImage,
 }: // published,
 BlogsCardProps) => {
+  const countMinutes = (content: string) => {
+    const minutes = Math.ceil(content.length / 500); // Assuming 500 words per minute read speed
+    if (minutes >= 60) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      return `${hours} hr${hours > 1 ? "s" : ""}${
+        remainingMinutes > 0 ? ` ${remainingMinutes} min` : ""
+      } read`;
+    }
+    return `${minutes} min read`;
+  };
   return (
     <Link to={`/blog/${id}`}>
       <div className=" bg-orange-50 flex items-center justify-between px-5 py-7 mb-2 border-b-2 cursor-pointer hover:shadow-2xl rounded-md transition-all duration-300 ease-in-out">
@@ -38,11 +51,17 @@ BlogsCardProps) => {
               __html: content.length >= 100 && content.slice(0, 100) + "...",
             }}
           />
-          <div className="text-gray-400 text-sm pt-3">{`${Math.floor(
-            content.length / 100
-          )} min read`}</div>
+          <div className="text-gray-400 text-sm pt-3">
+            {countMinutes(content)}
+          </div>
         </div>
-        <div className="banner">Banner Image</div>
+        <div
+          className="w-32 h-32 bg-cover bg-center rounded-md"
+          style={{
+            backgroundImage: titleImage ? `url(${titleImage})` : "none",
+            backgroundColor: !titleImage ? "#f3f4f6" : "transparent",
+          }}
+        />
       </div>
     </Link>
   );

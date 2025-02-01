@@ -13,6 +13,7 @@ export interface Blog {
   id: string;
   createdAt?: string;
   published?: boolean;
+  titleImage?: string;
 }
 
 export const useBlogs = () => {

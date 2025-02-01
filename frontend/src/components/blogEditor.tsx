@@ -9,26 +9,70 @@ export const BlogEditor = ({
   blogTitle,
   blogContent,
   blogId,
+  blogImage,
 }: {
   blogTitle?: string;
   blogContent?: string;
   blogId?: string;
+  blogImage?: string;
 }) => {
   const [title, setTitle] = useState(() => (blogTitle ? blogTitle : ""));
   const [content, setContent] = useState(() =>
     blogContent ? blogContent : ""
   );
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    blogImage || null
+  );
   const { jwt } = useAuth();
   const navigate = useNavigate();
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 1024 * 1024) {
+        // 1MB limit
+        showAlert("Image size must be less than 1MB", "error");
+        return;
+      }
+      setImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
+  // Upload image and get URL
+  const uploadImage = async () => {
+    if (!image) return null;
+    try {
+      const formData = new FormData();
+      formData.append("titleImage", image);
+
+      const { data } = await axios.post(
+        `${BACKEND_URL}/blog/upload-image`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return data.imageUrl; // Cloudflare returns image URL
+    } catch (error) {
+      showAlert("Image upload failed", "error");
+      return null;
+    }
+  };
+
   const onPublish = async () => {
     try {
       //overlay loder
+      const titleImage = await uploadImage();
       const url = `${BACKEND_URL}/blog${blogId ? `/${blogId}` : ""}`;
       const method = blogId ? "PATCH" : "POST";
       const response = await axios({
         method,
         url,
-        data: { title, content },
+        data: { title, content, titleImage },
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
@@ -46,6 +90,24 @@ export const BlogEditor = ({
 
   return (
     <div className="px-20 py-16">
+      <div className="mb-4 flex flex-col items-center">
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="w-32 h-32 object-cover rounded-md mb-2"
+          />
+        )}
+        <label className="cursor-pointer bg-orange-800 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+          Upload Image
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+        </label>
+      </div>
       <div className="flex items-center">
         <input
           type="text"

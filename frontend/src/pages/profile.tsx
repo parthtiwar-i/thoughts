@@ -83,6 +83,7 @@ export default function UserProfile() {
                     id={blog.id}
                     published={blog.published}
                     myBlogs={true}
+                    titleImage={blog.titleImage}
                   />
                 ))
               )}

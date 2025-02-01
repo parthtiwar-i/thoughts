@@ -14,7 +14,7 @@ const Blog = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className="px-28 py-12 bg-orange-50 ">
+        <div className=" px-10 md:px-28 py-12 bg-orange-50 ">
           <BlogPage blog={blog!} />
           {/* <BlogComponent blog={blog!} /> */}
         </div>

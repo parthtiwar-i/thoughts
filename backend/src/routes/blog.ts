@@ -6,19 +6,27 @@ import {
   createBlogInputs,
   updateBlogInputs,
 } from "@parthtiwar_i/thoughts-common";
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
 
 export const blogRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRETE: string;
+    AWS_ACCESS_KEY_ID: string;
+    AWS_SECRET_ACCESS_KEY: string;
+    AWS_REGION: string;
+    S3_BUCKET_NAME: string;
   };
 }>();
 
 //Middlewares
 blogRouter.use("/*", async (c, next) => {
   if (c.req.path.split("/")[4] === "all") {
-    await next();
-    return;
+    return await next();
   }
   const authHeader = c.req.header("Authorization");
   if (!authHeader) {
@@ -30,10 +38,9 @@ blogRouter.use("/*", async (c, next) => {
     const payload = await verify(token, c.env.JWT_SECRETE);
     if (payload) {
       c.set("jwtPayload", payload);
-      await next();
+      return await next();
     } else {
-      new Error("Not authorised");
-      return;
+      throw new Error("Not authorised");
     }
   } catch (error) {
     c.status(401);
@@ -59,6 +66,7 @@ blogRouter.get("/:id/blog", async (c) => {
         id: true,
         title: true,
         content: true,
+        titleImage: true,
         author: {
           select: {
             name: true,
@@ -84,6 +92,7 @@ blogRouter.get("/all", async (c) => {
       select: {
         title: true,
         content: true,
+        titleImage: true,
         id: true,
         author: {
           select: {
@@ -105,6 +114,7 @@ blogRouter.post("/", async (c) => {
   }).$extends(withAccelerate());
   const body = await c.req.json();
 
+  //TODO - add imageTitle type to the zod validation
   const { success } = createBlogInputs.safeParse(body);
   if (!success) {
     c.status(411);
@@ -113,12 +123,7 @@ blogRouter.post("/", async (c) => {
   const user = c.get("jwtPayload");
 
   const blog = await prisma.post.create({
-    data: {
-      title: body.title,
-      content: body.content,
-      published: true,
-      authorId: user.id,
-    },
+    data: { ...body, published: true, authorId: user.id },
   });
   return c.json({ message: "Blog created successsfuly ", blog });
 });
@@ -132,7 +137,7 @@ blogRouter.patch("/:id", async (c) => {
 
   const body = await c.req.json();
 
-  const { success } = updateBlogInputs.safeParse(body);
+  const { success } = updateBlogInputs.safeParse(body); // here also add the titleImage type to zod validation
   if (!success) {
     c.status(411);
     return c.json({ message: "Invalid inputs" });
@@ -141,10 +146,7 @@ blogRouter.patch("/:id", async (c) => {
     where: {
       id,
     },
-    data: {
-      title: body.title,
-      content: body.content,
-    },
+    data: { ...body },
   });
   return c.json({ message: "Updated successsfuly ", blog });
 });
@@ -155,9 +157,45 @@ blogRouter.delete("/:id", async (c) => {
   const prisma = new PrismaClient({
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
-  //TODO: check blog author
+  const s3 = new S3Client({
+    region: c.env.AWS_REGION,
+    credentials: {
+      accessKeyId: c.env.AWS_ACCESS_KEY_ID!,
+      secretAccessKey: c.env.AWS_SECRET_ACCESS_KEY!,
+    },
+  });
 
   try {
+    //Retrieve the blog post to get the image URL
+    const blog = await prisma.post.findUnique({
+      where: { id },
+      select: { titleImage: true, authorId: true },
+    });
+
+    if (!blog) {
+      return c.json({ message: "Blog not found" }, 404);
+    }
+
+    if (c.get("jwtPayload").id !== blog?.authorId) {
+      throw new Error("Not authorised");
+    }
+
+    // TODO:- work on delete
+    if (blog.titleImage) {
+      //Extract file name from URL (S3 URL format: https://bucket.s3.amazonaws.com/filename)
+      const imageUrl = new URL(blog.titleImage);
+      const fileName = imageUrl.pathname.substring(1); // Remove leading `/`
+
+      // Step 3: Delete image from S3
+      const deleteParams = {
+        Bucket: c.env.S3_BUCKET_NAME,
+        Key: fileName,
+      };
+
+      await s3.send(new DeleteObjectCommand(deleteParams));
+      console.log("Image deleted from S3:", fileName);
+    }
+
     const deletedBlog = await prisma.post.delete({
       where: {
         id,
@@ -187,6 +225,7 @@ blogRouter.get("/user-blogs", async (c) => {
         id: true,
         title: true,
         content: true,
+        titleImage: true,
         createdAt: true,
         author: {
           select: {
@@ -200,4 +239,40 @@ blogRouter.get("/user-blogs", async (c) => {
   } catch (error) {
     return c.json({ message: "Unable to fetch blogs! please retry", error });
   }
+});
+
+// upload blog image route
+
+blogRouter.post("/upload-image", async (c) => {
+  const formData = await c.req.formData();
+  const file = formData.get("titleImage") as File | null;
+  console.log(file);
+
+  if (!file) {
+    return c.json({ error: "No file uploaded" }, 400);
+  }
+
+  const arrayBuffer = await file.arrayBuffer(); // Convert to Buffer
+  const uniqueFileName = `${Date.now()}-${file.name}`;
+
+  const s3 = new S3Client({
+    region: c.env.AWS_REGION,
+    credentials: {
+      accessKeyId: c.env.AWS_ACCESS_KEY_ID!,
+      secretAccessKey: c.env.AWS_SECRET_ACCESS_KEY!,
+    },
+  });
+
+  const uploadCommand = new PutObjectCommand({
+    Bucket: c.env.S3_BUCKET_NAME,
+    Key: uniqueFileName,
+    Body: new Uint8Array(arrayBuffer), //convert to uint8array as it allow modification and can be updated while arrayBuffer cant. The AWS SDK expects Body to be Uint8Array | ReadableStream | string, not ArrayBuffer.
+    ContentType: file.type,
+  });
+
+  await s3.send(uploadCommand);
+
+  const imageUrl = `https://${c.env.S3_BUCKET_NAME}.s3.amazonaws.com/${uniqueFileName}`;
+
+  return c.json({ imageUrl }); // Send image URL back to frontend
 });

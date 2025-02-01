@@ -17,6 +17,7 @@ const Blogs = () => {
             content={blog.content}
             publishDate="12 Jan 2024"
             id={blog.id}
+            titleImage={blog.titleImage}
           />
         ))}
       </div>
