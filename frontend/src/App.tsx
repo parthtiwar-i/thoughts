@@ -30,8 +30,8 @@ function App() {
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
               <Route path="/blogs" element={<Blogs />} />
+              <Route path="/blog/:id" element={<Blog />} />
               <Route element={<ProtectedRoute />}>
-                <Route path="/blog/:id" element={<Blog />} />
                 <Route path="/update/:id" element={<UpdateBlog />} />
                 <Route path="/publish" element={<Publish />} />
                 <Route path="/profile" element={<UserProfile />} />
