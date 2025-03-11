@@ -50,13 +50,13 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
   }, [jwt]);
 
   return (
-    <div className="md:flex h-screen w-full box-border">
-      <div className="bg-orange-100 flex items-center justify-center h-screen w-screen md:w-1/2 box-border ">
+    <div className="md:flex h-screen w-full box-border mt-10">
+      <div className="bg-vintage-parchment dark:bg-darkVintage-parchment  flex items-center justify-center h-screen w-screen md:w-1/2 box-border">
         <div className="flex justify-center items-center flex-col w-full ">
           <h1 className="text-3xl text-orange-800 font-semibold font-serif ">
             {type === "signup" ? "Create an account" : "Login"}
           </h1>
-          <p className="text-gray-500">
+          <p className="text-gray-500 dark:text-gray-200">
             {type === "signin"
               ? "Don't have an account"
               : "Already have an account"}
@@ -67,7 +67,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
               {type === "signup" ? " Login" : " Signup"}
             </Link>
           </p>
-          <div className="w-full md:w-1/2 flex flex-col justify-center rounded-md p-10">
+          <div className="w-full md:w-1/2 flex flex-col justify-center rounded-md p-10 text-gray-500 dark:text-gray-200">
             {type === "signup" && (
               <Inputs
                 label="Username"
@@ -112,7 +112,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
           </div>
         </div>
       </div>
-      <div className="hidden bg-orange-200 md:flex items-center justify-center box-border w-1/2">
+      <div className="hidden dark:bg-vintage-parchment bg-darkVintage-parchment md:flex items-center justify-center box-border w-1/2">
         <Quote />
       </div>
     </div>
