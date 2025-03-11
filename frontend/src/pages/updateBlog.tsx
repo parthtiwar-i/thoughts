@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useBlog } from "../hooks/useBlogs";
-import { BlogEditor } from "../components/blogEditor";
-import { Loader } from "../components/skeletonLoader";
+import { BlogEditor } from "../components/ui/blogEditor";
+import { Loader } from "../components/ui/skeletonLoader";
 
 const UpdateBlog = () => {
   const { id } = useParams();

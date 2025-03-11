@@ -1,12 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import Quote from "./quote";
-import Inputs from "../helper/Inputs";
+import Inputs from "../../helper/Inputs";
 import { useEffect, useState } from "react";
 import { SignUpInput } from "@parthtiwar_i/thoughts-common";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
-import showAlert from "../helper/Alert";
-import { useAuth } from "../context";
+import { BACKEND_URL } from "../../config";
+import { useAuth } from "../../context";
+import { toast } from "sonner";
 const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
   const [userInputs, setUserInputs] = useState<SignUpInput>({
     name: "",
@@ -30,7 +30,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
         type == "signin"
           ? "Logged In successfully"
           : "Account created successfully";
-      showAlert(message, "success");
+      toast.success(message);
       navigate("/blogs");
     } catch (error) {
       let errorMessage = "An unknown error occurred";
@@ -39,7 +39,7 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
       } else if (typeof error === "string") {
         errorMessage = error;
       }
-      showAlert(errorMessage, "error");
+      toast.error(errorMessage);
     }
   }
 

@@ -1,4 +1,4 @@
-import { Blog } from "../hooks/useBlogs";
+import { Blog } from "../../hooks/useBlogs";
 import Avatar from "./userAvatar";
 
 // interface BlogPageProps {

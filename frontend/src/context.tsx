@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { BACKEND_URL } from "./config";
-import showAlert from "./helper/Alert";
+import { toast } from "sonner";
 
 interface User {
   id: string;
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
       setUser(response.data.userData);
     } catch (error) {
-      showAlert("Please try again", "error");
+      toast.error("Please try again");
       // Handle error appropriately
     }
   };
@@ -102,7 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem("jwt");
     setJwt(null);
     setUser(null);
-    showAlert("Logged out", "success");
+    toast.success("Logged out successfully");
   };
 
   return (

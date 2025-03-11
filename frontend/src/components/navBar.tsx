@@ -1,87 +1,160 @@
-'use client'
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X, BookOpen, Sun, Moon } from "lucide-react";
+import { useTheme } from "./themeProvider";
+import { useAuth } from "../context";
+import Avatar from "./ui/userAvatar";
 
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Menu, X } from 'lucide-react'
-import Avatar from './userAvatar'
-import { useAuth } from '../context'
+export const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
-export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false)
-  const { user } = useAuth()
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
 
-  const toggleMenu = () => setIsOpen(!isOpen)
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="sticky top-0 z-10 bg-orange-100 font-mono shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to="/" className="text-orange-800 text-xl font-bold">
-              Thoughts
-            </Link>
-          </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              <NavLink to="/blogs">Blogs</NavLink>
-              <NavLink to="/publish">Publish</NavLink>
-              {user ? (
-                <Link to="/profile" className="inline-block">
-                  <Avatar name={user.name} />
-                </Link>
-              ) : (
-                <NavLink to="/login">Login</NavLink>
-              )}
-            </div>
-          </div>
-          <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="inline-flex items-center justify-center p-2 rounded-md text-orange-800 hover:text-orange-900 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500"
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 md:px-10 py-4 
+        ${
+          isScrolled
+            ? "bg-vintage-paper bg-opacity-90 shadow-md backdrop-blur-sm dark:bg-darkVintage-paper dark:bg-opacity-90"
+            : "bg-transparent"
+        }`}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <Link to="/" className="flex items-center space-x-2">
+          <BookOpen className="h-8 w-8 text-vintage-brown dark:text-darkVintage-gold" />
+          <span className="text-xl md:text-2xl font-playfair font-semibold text-vintage-ink dark:text-darkVintage-ink">
+            Thoughts
+          </span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-8">
+          <Link
+            to="/"
+            className="font-cormorant text-lg text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent border-b-2 border-transparent hover:border-vintage-accent dark:hover:border-darkVintage-accent transition-all duration-300"
+          >
+            Home
+          </Link>
+          <Link
+            to="/blogs"
+            className="font-cormorant text-lg text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent border-b-2 border-transparent hover:border-vintage-accent dark:hover:border-darkVintage-accent transition-all duration-300"
+          >
+            Blogs
+          </Link>
+          <Link
+            to="/publish"
+            className="font-cormorant text-lg text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent border-b-2 border-transparent hover:border-vintage-accent dark:hover:border-darkVintage-accent transition-all duration-300"
+          >
+            Publish
+          </Link>
+          {user ? (
+            <Link
+              to="/profile"
+              className="font-cormorant text-lg text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent border-b-2 border-transparent hover:border-vintage-accent dark:hover:border-darkVintage-accent transition-all duration-300"
             >
-              <span className="sr-only">Open main menu</span>
-              {isOpen ? <X className="block h-6 w-6" /> : <Menu className="block h-6 w-6" />}
-            </button>
-          </div>
+              <Avatar name={user.name} />
+            </Link>
+          ) : (
+            <Link
+              to="/login"
+              className="font-cormorant text-lg text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent border-b-2 border-transparent hover:border-vintage-accent dark:hover:border-darkVintage-accent transition-all duration-300"
+            >
+              Login
+            </Link>
+          )}
+          {/* <Link
+            to="/contact"
+            className="font-cormorant text-lg text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent border-b-2 border-transparent hover:border-vintage-accent dark:hover:border-darkVintage-accent transition-all duration-300"
+          >
+            Contact
+          </Link> */}
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-vintage-cream dark:bg-darkVintage-brown hover:bg-vintage-gold/20 dark:hover:bg-darkVintage-gold/20 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? (
+              <Moon className="h-5 w-5 text-vintage-ink" />
+            ) : (
+              <Sun className="h-5 w-5 text-darkVintage-ink" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu Button and Theme Toggle */}
+        <div className="md:hidden flex items-center space-x-3">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full bg-vintage-cream dark:bg-darkVintage-brown hover:bg-vintage-gold/20 dark:hover:bg-darkVintage-gold/20 transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "light" ? (
+              <Moon className="h-5 w-5 text-vintage-ink" />
+            ) : (
+              <Sun className="h-5 w-5 text-darkVintage-ink" />
+            )}
+          </button>
+
+          <button
+            className="text-vintage-ink dark:text-darkVintage-ink"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 
-      {isOpen && (
-        <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            <NavLink to="/blogs" mobile>Blogs</NavLink>
-            <NavLink to="/publish" mobile>Publish</NavLink>
-            {user ? (
-              <Link to="/profile" className="block px-3 py-2 text-base font-medium text-orange-800 hover:text-orange-900 hover:bg-orange-200">
-                <Avatar name={user.name} />
-              </Link>
-            ) : (
-              <NavLink to="/login" mobile>Login</NavLink>
-            )}
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 w-full bg-vintage-paper bg-opacity-95 backdrop-blur-sm shadow-md border-t border-vintage-accent/20 dark:bg-darkVintage-paper dark:bg-opacity-95 dark:border-darkVintage-accent/20 animate-fade-in">
+          <div className="flex flex-col space-y-4 p-6">
+            <Link
+              to="/"
+              className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              to="/blog"
+              className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Blog
+            </Link>
+            <Link
+              to="/about"
+              className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact
+            </Link>
           </div>
         </div>
       )}
     </nav>
-  )
-}
-
-interface NavLinkProps {
-  to: string
-  children: React.ReactNode
-  mobile?: boolean
-}
-
-function NavLink({ to, children, mobile = false }: NavLinkProps) {
-  const baseClasses = "text-orange-800 hover:text-orange-900 hover:bg-orange-200 transition-colors duration-200"
-  const desktopClasses = "px-3 py-2 rounded-md text-sm font-medium"
-  const mobileClasses = "block px-3 py-2 rounded-md text-base font-medium"
-
-  return (
-    <Link
-      to={to}
-      className={`${baseClasses} ${mobile ? mobileClasses : desktopClasses}`}
-    >
-      {children}
-    </Link>
-  )
-}
+  );
+};

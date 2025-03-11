@@ -1,4 +1,4 @@
-import { BlogEditor } from "../components/blogEditor";
+import { BlogEditor } from "../components/ui/blogEditor";
 
 const Publish = () => {
   return <BlogEditor />;

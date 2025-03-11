@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useBlog } from "../../hooks/useBlogs";
-import { BlogPage } from "../../components/detailedBlogPage";
-import { Loader } from "../../components/skeletonLoader";
+import { BlogPage } from "../../components/ui/detailedBlogPage";
+import { Loader } from "../../components/ui/skeletonLoader";
 // import BlogComponent from "../../components/blogComponent";
 
 const Blog = () => {
@@ -14,10 +14,10 @@ const Blog = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div className=" px-10 md:px-28 py-12 bg-orange-50 ">
-          <BlogPage blog={blog!} />
-          {/* <BlogComponent blog={blog!} /> */}
-        </div>
+        <BlogPage blog={blog!} />
+        // <div className=" px-10 md:px-28 py-12 bg-orange-50 ">
+        // {/* <BlogComponent blog={blog!} /> */}
+        // </div>
       )}
     </div>
   );

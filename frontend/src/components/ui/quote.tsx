@@ -1,4 +1,4 @@
-import quote from "../assets/pngegg.png";
+import quote from "../../assets/pngegg.png";
 const Quote = () => {
   return (
     <div className="flex justify-center items-center">

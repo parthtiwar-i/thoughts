@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useAuth } from "../context";
+import { useAuth } from "../../context";
 import { useNavigate } from "react-router-dom";
 import Tiptap from "./tiptap";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
-import showAlert from "../helper/Alert";
+import { BACKEND_URL } from "../../config";
+import { toast } from "sonner";
 export const BlogEditor = ({
   blogTitle,
   blogContent,
@@ -31,7 +31,7 @@ export const BlogEditor = ({
     if (file) {
       if (file.size > 1024 * 1024) {
         // 1MB limit
-        showAlert("Image size must be less than 1MB", "error");
+        toast.error("Image size must be less than 1MB");
         return;
       }
       setImage(file);
@@ -58,7 +58,7 @@ export const BlogEditor = ({
       );
       return data.imageUrl; // Cloudflare returns image URL
     } catch (error) {
-      showAlert("Image upload failed", "error");
+      toast.error("Image upload failed");
       return null;
     }
   };
@@ -79,18 +79,15 @@ export const BlogEditor = ({
       });
 
       navigate(`/blog/${response.data.blog.id}`);
-      showAlert(
-        `Blog ${blogId ? "updated" : "created"} successfully`,
-        "success"
-      );
+      toast.success(`Blog ${blogId ? "updated" : "created"} successfully`);
     } catch (error) {
-      showAlert(`Unable to ${blogId ? "updated" : "created"} blog`, "error");
+      toast.error(`Unable to ${blogId ? "updated" : "created"} blog`);
     }
   };
 
   return (
-    <div className="px-20 py-16">
-      <div className="mb-4 flex flex-col items-center">
+    <div className="px-20 py-16  ">
+      <div className="mb-4 flex flex-col items-center ">
         {imagePreview && (
           <img
             src={imagePreview}
@@ -98,7 +95,7 @@ export const BlogEditor = ({
             className="w-32 h-32 object-cover rounded-md mb-2"
           />
         )}
-        <label className="cursor-pointer bg-orange-800 text-white px-4 py-2 rounded-lg hover:bg-orange-700">
+        <label className="cursor-pointer bg-vintage-parchment dark:bg-darkVintage-parchment dark:text-white text-black px-4 py-2 rounded-lg  border-vintage-brown/20 dark:border-darkVintage-gold/20 transition-all duration-300 ease-in-out hover:shadow-lg">
           Upload Image
           <input
             type="file"
@@ -111,14 +108,14 @@ export const BlogEditor = ({
       <div className="flex items-center">
         <input
           type="text"
-          className="bg-white font-serif font-extrabold min-w-max text-gray-900 text-5xl rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 "
+          className=" bg-vintage-parchment dark:bg-darkVintage-parchment dark:text-white text-black font-serif font-extrabold min-w-max  text-5xl rounded-lg focus:outline-none focus:border-blue-500 block w-full p-2.5 "
           placeholder="Title"
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
       </div>
-      <div className="min-h-64 bg-orange-50">
+      <div className="min-h-64  bg-vintage-parchment dark:bg-darkVintage-parchment dark:text-white text-black">
         <Tiptap
           setContent={setContent}
           content={
@@ -130,7 +127,7 @@ export const BlogEditor = ({
       </div>
       <button
         type="button"
-        className="text-white bg-orange-950 hover:bg-orange-800 focus:outline-none font-medium rounded-lg text-lg px-5 py-1.5 mt-4 text-center"
+        className=" bg-vintage-parchment dark:bg-darkVintage-parchment dark:text-white text-black focus:outline-none font-medium rounded-lg text-lg px-5 py-1.5 mt-4 text-center"
         onClick={onPublish}
       >
         {blogId ? "Update" : "Publish"}
