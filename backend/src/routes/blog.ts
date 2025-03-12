@@ -25,7 +25,10 @@ export const blogRouter = new Hono<{
 
 //Middlewares
 blogRouter.use("/*", async (c, next) => {
-  if (c.req.path.split("/")[4] === "all") {
+  if (
+    c.req.path.split("/")[4] === "all" ||
+    c.req.path.split("/")[5] === "blog"
+  ) {
     return await next();
   }
   const authHeader = c.req.header("Authorization");
