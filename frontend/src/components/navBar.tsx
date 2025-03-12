@@ -132,26 +132,36 @@ export const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/blog"
+              to="/blogs"
               className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              Blog
+              Blogs
             </Link>
             <Link
-              to="/about"
+              to="/publish"
               className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
               onClick={() => setIsMenuOpen(false)}
             >
-              About
+              Publish
             </Link>
-            <Link
-              to="/contact"
-              className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </Link>
+            {user ? (
+              <Link
+                to="/blogs"
+                className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Avatar name={user.name} />
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="font-cormorant text-xl text-vintage-ink dark:text-darkVintage-ink hover:text-vintage-accent dark:hover:text-darkVintage-accent py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                SignIn
+              </Link>
+            )}
           </div>
         </div>
       )}
