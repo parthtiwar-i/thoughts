@@ -21,9 +21,6 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
         `${BACKEND_URL}/user/${type === "signin" ? "login" : "signup"}`,
         userInputs
       );
-      if (response.data.error) {
-        throw Error(response.data.error);
-      }
       const jwt = response.data;
       login(jwt.token);
       const message: string =
@@ -32,13 +29,9 @@ const LoginForm = ({ type }: { type: "signup" | "signin" }) => {
           : "Account created successfully";
       toast.success(message);
       navigate("/blogs");
-    } catch (error) {
-      let errorMessage = "An unknown error occurred";
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (typeof error === "string") {
-        errorMessage = error;
-      }
+    } catch (error: any) {
+      let errorMessage =
+        error.response.data.error || "An unknown error occurred";
       toast.error(errorMessage);
     }
   }

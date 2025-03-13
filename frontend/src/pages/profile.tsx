@@ -227,7 +227,7 @@ export default function UserProfile() {
                     You haven't written any scrolls yet.
                   </p>
                   <button
-                    onClick={() => navigate("/create")}
+                    onClick={() => navigate("/publish")}
                     className="mt-4 flex items-center gap-2 bg-vintage-brown dark:bg-darkVintage-gold text-white dark:text-darkVintage-parchment px-5 py-2 rounded-md hover:bg-vintage-accent dark:hover:bg-darkVintage-accent transition-colors duration-300 font-lora text-sm mx-auto"
                   >
                     <span>Write your first scroll</span>

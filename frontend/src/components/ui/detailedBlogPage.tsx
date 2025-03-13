@@ -173,7 +173,7 @@ export const BlogPage = ({ blog }: { blog: Blog }) => {
               <div className=" bg-vintage-parchment dark:bg-darkVintage-parchment rounded-lg p-8">
                 <div className="scroll-content">
                   <div
-                    className="font-cormorant text-lg text-start text-vintage-ink dark:text-darkVintage-ink leading-relaxed"
+                    className="font-cormorant text-lg text-start text-vintage-ink dark:text-darkVintage-ink leading-relaxed tiptap"
                     dangerouslySetInnerHTML={{ __html: blog.content }}
                   ></div>
                 </div>

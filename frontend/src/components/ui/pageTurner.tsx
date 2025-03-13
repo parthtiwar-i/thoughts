@@ -1,41 +1,30 @@
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
-interface PageTurnerProps {
-  isLoading: boolean;
-  onLoadingComplete: () => void;
-}
-
-const PageTurner = ({ isLoading, onLoadingComplete }: PageTurnerProps) => {
+const PageTurner = () => {
   const [visible, setVisible] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 3;
 
   useEffect(() => {
     let timer: any;
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => {
+        if (prev < totalPages) return prev + 1;
+        return 1; // Loop back to the first page
+      });
+    }, 1500);
 
-    if (isLoading) {
-      // If still loading, continue turning pages
-      const interval = setInterval(() => {
-        setCurrentPage((prev) => {
-          if (prev < totalPages) return prev + 1;
-          // Reset to first page if we've gone through all pages
-          return 1;
-        });
-      }, 1500);
-
-      return () => clearInterval(interval);
-    } else {
-      // When loading is complete, finish the animation and hide
-      timer = setTimeout(() => {
-        setVisible(false);
-        setTimeout(() => onLoadingComplete(), 500);
-      }, 1000);
-    }
+    timer = setTimeout(() => {
+      setVisible(false);
+    }, totalPages * 1500 + 1000); // Stop after all pages animate once
 
     return () => {
-      if (timer) clearTimeout(timer);
+      clearInterval(interval);
+      clearTimeout(timer);
+      toast("Welcome to Thoughts");
     };
-  }, [isLoading, onLoadingComplete]);
+  }, []);
 
   if (!visible) return null;
 

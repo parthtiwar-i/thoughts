@@ -9,19 +9,19 @@ import Publish from "./pages/createBlog";
 import { AuthProvider } from "./context";
 import { ProtectedRoute } from "./routes/protectedRoute";
 import { lazy, Suspense } from "react";
-import { Loading } from "./components/ui/loading";
 import { Footer } from "./components/ui/footer";
 import UserProfile from "./pages/profile";
 import UpdateBlog from "./pages/updateBlog";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "./components/themeProvider";
 import { Navbar } from "./components/navBar";
+import PageTurner from "./components/ui/pageTurner";
 const Home = lazy(() => import("./pages/home"));
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<PageTurner />}>
           <Toaster richColors />
           <AuthProvider>
             <Navbar />
