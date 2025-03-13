@@ -1,6 +1,6 @@
-// export const BACKEND_URL: string =
-//   "https://my-app.tiwariparth26.workers.dev/api/v1";
-export const BACKEND_URL: string = " http://127.0.0.1:8787/api/v1";
+export const BACKEND_URL: string =
+  "https://my-app.tiwariparth26.workers.dev/api/v1";
+// export const BACKEND_URL: string = " http://127.0.0.1:8787/api/v1";
 
 export const homeHeroTitle = "Your Insight Matters";
 
